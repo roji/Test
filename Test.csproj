@@ -1,12 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
-    </PropertyGroup>
+  <PropertyGroup>
+      <OutputType>Exe</OutputType>
+      <TargetFramework>netcoreapp3.1</TargetFramework>
 
-    <ItemGroup>
-<!--        <PackageReference Include="Npgsql" Version="4.1.4" />-->
-    </ItemGroup>
+<!--      <EfCoreVersion>3.1.8</EfCoreVersion>-->
+<!--      <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>-->
+<!--      <NpgsqlVersion>3.1.4</NpgsqlVersion>-->
+
+<!--      <EfCoreVersion>5.0.0-rc.1.20451.13</EfCoreVersion>-->
+<!--      <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>-->
+<!--      <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>-->
+
+      <EfCoreVersion>5.0.0-rc.2.*</EfCoreVersion>
+      <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>
+      <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>
+  </PropertyGroup>
+
+  <!--
+  <Import Project="../efcore/eng/Versions.props" />
+  -->
+
+  <ItemGroup>
+<!--      <ProjectReference Include="../efcore/src/EFCore.SqlServer/EFCore.SqlServer.csproj" />-->
+<!--      <ProjectReference Include="../efcore/src/EFCore.Design/EFCore.Design.csproj" />-->
+
+<!--      <ProjectReference Include="../efcore.pg/src/EFCore.PG/EFCore.PG.csproj" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)" />
+
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+  </ItemGroup>
+
+<!--   <ItemGroup>-->
+<!--       <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="$(MicrosoftNetCompilersToolsetVersion)" />-->
+<!--   </ItemGroup>-->
 
 </Project>
