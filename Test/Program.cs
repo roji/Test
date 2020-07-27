@@ -1,4 +1,5 @@
 ﻿using System;
+using SystemData;
 using SqlClient;
 
 namespace Test
@@ -9,6 +10,9 @@ namespace Test
         {
             var tx = new SqlTransaction();
             tx.Save("foo");
+
+            var dbTransaction = (DbTransaction)tx;
+            dbTransaction.Save("bar");
         }
     }
 }

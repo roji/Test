@@ -6,8 +6,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <Reference Include="SqlClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+            <HintPath>..\SqlClient\bin\Debug\netstandard2.1\SqlClient.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
         <ProjectReference Include="..\SystemData\SystemData.csproj" />
-        <ProjectReference Include="..\SqlClient\SqlClient.csproj" />
+<!--      <ProjectReference Include="..\SqlClient\SqlClient.csproj" />-->
     </ItemGroup>
 
 </Project>
