@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace EFGames
 {
@@ -14,6 +14,8 @@ namespace EFGames
             await using var ctx = new BlogContext();
             await ctx.Database.EnsureDeletedAsync();
             await ctx.Database.EnsureCreatedAsync();
+
+            IStateManager stateManager;
         }
     }
 
@@ -21,20 +23,8 @@ namespace EFGames
     {
         public DbSet<Blog> Blogs { get; set; }
 
-        static ILoggerFactory ContextLoggerFactory
-            => LoggerFactory.Create(b => b.AddConsole().AddFilter("", LogLevel.Information));
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder
-                //.UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0")
-                //.UseSqlite("Filename=:memory:")
-                .UseNpgsql(@"Host=localhost;Username=test;Password=test")
-                .EnableSensitiveDataLogging()
-                .UseLoggerFactory(ContextLoggerFactory);
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        }
+            => optionsBuilder.UseSqlite("Filename=:memory:");
     }
 
     public class Blog
