@@ -1,12 +1,37 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
+        <UserSecretsId>aspnet-Test-B9C778E8-D852-476E-9251-B3A34F56F567</UserSecretsId>
+
+<!--        <AspNetVersion>3.1.8</AspNetVersion>-->
+<!--        <EfCoreVersion>$(AspNetVersion)</EfCoreVersion>-->
+<!--        <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>-->
+<!--        <NpgsqlVersion>3.1.4</NpgsqlVersion>-->
+
+        <AspNetVersion>5.0.0-rc.1.20451.17</AspNetVersion>
+        <EfCoreVersion>5.0.0-rc.1.20451.13</EfCoreVersion>
+        <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>
+        <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>
+
+<!--        <AspNetVersion>5.0.0-rc.2.*</AspNetVersion>-->
+<!--        <EfCoreVersion>5.0.0-rc.2.*</EfCoreVersion>-->
+<!--        <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>-->
+<!--        <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>-->
     </PropertyGroup>
 
     <ItemGroup>
-<!--        <PackageReference Include="Npgsql" Version="4.1.4" />-->
+        <None Update="app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
+    </ItemGroup>
+  
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(AspNetVersion)" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(AspNetVersion)" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="$(AspNetVersion)" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EFCoreVersion)" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EFCoreVersion)" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="$(EFCoreVersion)" />
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
     </ItemGroup>
 
 </Project>
