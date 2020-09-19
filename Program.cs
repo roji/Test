@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Test
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello World!");
-        }
+        Task Foo(CancellationToken cancellationToken = default)
+            => Bar();
+
+        Task Bar(CancellationToken cancellationToken = default)
+            => Task.Delay(1, cancellationToken);
     }
 }
