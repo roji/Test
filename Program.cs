@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.EntityFrameworkCore.Migrations.Design;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace EFGames
@@ -11,9 +14,18 @@ namespace EFGames
     {
         static async Task Main(string[] args)
         {
-            await using var ctx = new BlogContext();
-            await ctx.Database.EnsureDeletedAsync();
-            await ctx.Database.EnsureCreatedAsync();
+            using var ctx = new BlogContext();
+
+            var services = new ServiceCollection()
+                .AddEntityFrameworkDesignTimeServices()
+                .AddDbContextDesignTimeServices(ctx);
+            var serviceProvider = services.BuildServiceProvider();
+            var scaffolder = serviceProvider.GetRequiredService<IMigrationsScaffolder>();
+            var migration = scaffolder.ScaffoldMigration(
+                "MyMigration",
+                "MyApp.Data");
+
+            Console.WriteLine(migration.MigrationCode);
         }
     }
 
