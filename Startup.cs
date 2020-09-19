@@ -31,13 +31,11 @@ namespace Test
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options
-                    .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0")
-                    // .UseSqlite("Filename=:memory:")
-                    // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
-                    .EnableSensitiveDataLogging()
-                    .UseLoggerFactory(ContextLoggerFactory));
+            services.AddDbContext<ApplicationDbContext>(options => options
+                .UseNpgsql(
+                    Configuration.GetConnectionString("DefaultConnection"))
+                .EnableSensitiveDataLogging()
+                .UseLoggerFactory(ContextLoggerFactory));
 
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
