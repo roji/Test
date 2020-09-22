@@ -4,17 +4,17 @@
       <OutputType>Exe</OutputType>
       <TargetFramework>netcoreapp3.1</TargetFramework>
 
-<!--      <EfCoreVersion>3.1.8</EfCoreVersion>-->
-<!--      <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>-->
-<!--      <NpgsqlVersion>3.1.4</NpgsqlVersion>-->
+      <EfCoreVersion>3.1.8</EfCoreVersion>
+      <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>
+      <NpgsqlVersion>3.1.4</NpgsqlVersion>
 
 <!--      <EfCoreVersion>5.0.0-rc.1.20451.13</EfCoreVersion>-->
 <!--      <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>-->
 <!--      <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>-->
 
-      <EfCoreVersion>5.0.0-rc.2.*</EfCoreVersion>
-      <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>
-      <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>
+<!--      <EfCoreVersion>5.0.0-rc.2.*</EfCoreVersion>-->
+<!--      <MicrosoftExtensionsVersion>5.0.0-rc.1.20451.14</MicrosoftExtensionsVersion>-->
+<!--      <NpgsqlVersion>5.0.0-rc1</NpgsqlVersion>-->
   </PropertyGroup>
 
   <!--
@@ -35,6 +35,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+
+      <PackageReference Include="BenchmarkDotNet" Version="0.12.1" />
   </ItemGroup>
 
 <!--   <ItemGroup>-->

@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Running;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -9,11 +8,18 @@ namespace EFGames
 {
     public class Program
     {
+        [Benchmark]
+        public async Task Foo()
+        {
+        }
+
         static async Task Main(string[] args)
         {
             await using var ctx = new BlogContext();
             await ctx.Database.EnsureDeletedAsync();
             await ctx.Database.EnsureCreatedAsync();
+
+            BenchmarkRunner.Run<Program>();
         }
     }
 
