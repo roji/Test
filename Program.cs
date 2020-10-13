@@ -1,12 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
+using Dapper;
+using Npgsql;
+using NpgsqlTypes;
 
 namespace Test
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            await using var connection = new NpgsqlConnection("Host=localhost;Username=test;Password=test");
+            await connection.OpenAsync();
         }
     }
 }
