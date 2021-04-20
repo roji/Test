@@ -9,28 +9,21 @@ await using var ctx = new BlogContext();
 await ctx.Database.EnsureDeletedAsync();
 await ctx.Database.EnsureCreatedAsync();
 
+_ = ctx.Model.FindEntityType(typeof(Blog)).FindProperty("DateTimeOffset").GetValueComparer();
+
+Console.WriteLine("Hello world");
+
 public class BlogContext : DbContext
 {
     public DbSet<Blog> Blogs { get; set; }
 
-    static ILoggerFactory ContextLoggerFactory
-        => LoggerFactory.Create(b => b.AddConsole().AddFilter("", LogLevel.Information));
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0")
-            //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
-            .EnableSensitiveDataLogging()
-            .UseLoggerFactory(ContextLoggerFactory);
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
+        => optionsBuilder.UseInMemoryDatabase("foo");
 }
 
 public class Blog
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    public DateTimeOffset DateTimeOffset { get; set; }
 }
