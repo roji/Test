@@ -5,28 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-await using var ctx = new BlogContext();
-await ctx.Database.EnsureDeletedAsync();
-await ctx.Database.EnsureCreatedAsync();
+var lambda = EF.CompileQuery((BlogContext context) => context.Blogs);
 
 public class BlogContext : DbContext
 {
     public DbSet<Blog> Blogs { get; set; }
 
-    static ILoggerFactory ContextLoggerFactory
-        => LoggerFactory.Create(b => b.AddConsole().AddFilter("", LogLevel.Information));
-
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0")
-            //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
-            .EnableSensitiveDataLogging()
-            .UseLoggerFactory(ContextLoggerFactory);
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
+        => optionsBuilder.UseInMemoryDatabase("foo");
 }
 
 public class Blog
