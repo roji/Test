@@ -9,13 +9,13 @@
 <!--      <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>-->
 <!--      <NpgsqlVersion>3.1.4</NpgsqlVersion>-->
 
-<!--      <EfCoreVersion>5.0.5</EfCoreVersion>-->
-<!--      <MicrosoftExtensionsVersion>5.0.0</MicrosoftExtensionsVersion>-->
-<!--      <NpgsqlVersion>5.0.5.1</NpgsqlVersion>-->
+      <EfCoreVersion>5.0.6</EfCoreVersion>
+      <MicrosoftExtensionsVersion>5.0.0</MicrosoftExtensionsVersion>
+      <NpgsqlVersion>5.0.6</NpgsqlVersion>
 
-      <EfCoreVersion>6.0.0-preview.3.21201.2</EfCoreVersion>
-      <MicrosoftExtensionsVersion>6.0.0-preview.3.21201.4</MicrosoftExtensionsVersion>
-      <NpgsqlVersion>6.0.0-preview3</NpgsqlVersion>
+<!--      <EfCoreVersion>6.0.0-preview.4.21253.1</EfCoreVersion>-->
+<!--      <MicrosoftExtensionsVersion>6.0.0-preview.4.21253.7</MicrosoftExtensionsVersion>-->
+<!--      <NpgsqlVersion>6.0.0-preview4</NpgsqlVersion>-->
   </PropertyGroup>
 
   <!--
