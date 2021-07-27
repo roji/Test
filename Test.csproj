@@ -13,9 +13,9 @@
       <MicrosoftExtensionsVersion>5.0.0</MicrosoftExtensionsVersion>
       <NpgsqlVersion>5.0.6</NpgsqlVersion>
 
-<!--      <EfCoreVersion>6.0.0-preview.4.21253.1</EfCoreVersion>-->
-<!--      <MicrosoftExtensionsVersion>6.0.0-preview.4.21253.7</MicrosoftExtensionsVersion>-->
-<!--      <NpgsqlVersion>6.0.0-preview4</NpgsqlVersion>-->
+<!--      <EfCoreVersion>6.0.0-preview.5.21301.9</EfCoreVersion>-->
+<!--      <MicrosoftExtensionsVersion>6.0.0-preview.5.21301.5</MicrosoftExtensionsVersion>-->
+<!--      <NpgsqlVersion>6.0.0-preview5</NpgsqlVersion>-->
   </PropertyGroup>
 
   <!--
