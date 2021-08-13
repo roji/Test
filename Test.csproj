@@ -23,8 +23,9 @@
   -->
 
   <ItemGroup>
-    <ProjectReference Include="../efcore/src/EFCore.SqlServer/EFCore.SqlServer.csproj" />
-    <ProjectReference Include="../efcore/src/EFCore.Design/EFCore.Design.csproj" />
+      <ProjectReference Include="../efcore/src/EFCore.Cosmos/EFCore.Cosmos.csproj" />
+<!--    <ProjectReference Include="../efcore/src/EFCore.SqlServer/EFCore.SqlServer.csproj" />-->
+<!--    <ProjectReference Include="../efcore/src/EFCore.Design/EFCore.Design.csproj" />-->
 
 <!--      <ProjectReference Include="../efcore.pg/src/EFCore.PG/EFCore.PG.csproj" />-->
   </ItemGroup>
