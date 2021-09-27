@@ -15,7 +15,7 @@
 
 <!--      <EfCoreVersion>6.0.0-rc.1.21452.10</EfCoreVersion>-->
 <!--      <MicrosoftExtensionsVersion>6.0.0-rc.1.21451.13</MicrosoftExtensionsVersion>-->
-<!--      <NpgsqlVersion>6.0.0-preview7</NpgsqlVersion>-->
+<!--      <NpgsqlVersion>6.0.0-rc.1</NpgsqlVersion>-->
 
       <EfCoreVersion>6.0.0-rc.2.*</EfCoreVersion>
       <MicrosoftExtensionsVersion>6.0.0-rc.2.*</MicrosoftExtensionsVersion>
