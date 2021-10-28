@@ -19,7 +19,7 @@
 
       <EfCoreVersion>6.0.0-rc.rtm.*</EfCoreVersion>
       <MicrosoftExtensionsVersion>6.0.0-rc.rtm.*</MicrosoftExtensionsVersion>
-      <NpgsqlVersion>6.0.0-rc.1</NpgsqlVersion>
+      <NpgsqlVersion>6.0.0-*</NpgsqlVersion>
   </PropertyGroup>
 
   <!--
