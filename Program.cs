@@ -16,7 +16,7 @@ public class BlogContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0")
+            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
             //.UseSqlite("Filename=:memory:")
             // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
             .LogTo(Console.WriteLine, LogLevel.Information)
