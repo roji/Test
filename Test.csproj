@@ -40,17 +40,22 @@
 
   <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)" />
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)" />-->
 
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />-->
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />-->
+<!--      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />-->
 
 <!--      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="$(NpgsqlVersion)" />-->
 <!--      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="$(NpgsqlVersion)" />-->
   </ItemGroup>
 
-<!--   <ItemGroup>-->
+    <ItemGroup>
+        <ProjectReference Include="../efcore/src/EFCore.SqlServer/EFCore.SqlServer.csproj" />
+        <ProjectReference Include="../efcore.pg/src/EFCore.PG/EFCore.PG.csproj" />
+    </ItemGroup>
+
+    <!--   <ItemGroup>-->
 <!--       <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="$(MicrosoftNetCompilersToolsetVersion)" />-->
 <!--   </ItemGroup>-->
 
