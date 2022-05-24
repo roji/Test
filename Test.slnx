@@ -1,3 +1,12 @@
 <Solution>
+  <Folder Name="/Local/">
+    <Project Path="../efcore/src/EFCore/EFCore.csproj" />
+    <Project Path="../efcore/src/EFCore.Abstractions/EFCore.Abstractions.csproj" />
+    <Project Path="../efcore/src/EFCore.Analyzers/EFCore.Analyzers.csproj" />
+    <Project Path="../efcore/src/EFCore.Relational/EFCore.Relational.csproj" />
+    <Project Path="../efcore/src/EFCore.SqlServer/EFCore.SqlServer.csproj" />
+    <Project Path="../efcore.pg/src/EFCore.PG/EFCore.PG.csproj" />
+    <Project Path="../npgsql/src/Npgsql/Npgsql.csproj" />
+  </Folder>
   <Project Path="Test.csproj" />
 </Solution>
