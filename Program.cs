@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -105,8 +107,55 @@ BEGIN
 
 END");
 
-var result = ctx.School.FromSqlRaw("EXEC School_GetList").ToList();
+List<IParameter> parameters = new List<IParameter>();
+
+parameters.Add(new UrlParameter() { ParameterName = "Id", Operator = ">=", ParameterType = typeof(int), ParameterValue = "1" });
+parameters.Add(new UrlParameter() { ParameterName = "Id", Operator = "<=", ParameterType = typeof(int), ParameterValue = "5" });
+
+List<SqlParameter> p = GetListParameters(parameters);
+var p2 = p.Single();
+
+p2.SqlDbType = SqlDbType.Structured;
+
+var filterParameter = new SqlParameter("IntWhereClauses", SqlDbType.Structured) { Value = dataTable };
+var result = ctx.School.FromSqlRaw("EXEC School_GetList @IntWhereClauses", p2).ToList();
 Console.WriteLine(result.Count);
+
+List<SqlParameter> GetListParameters(List<IParameter> parameters)
+{
+    List<SqlParameter> returnParams = new();
+
+    returnParams.Add(GenerateParameter("IntWhereClauses", typeof(int), parameters.FindAll(c => c.ParameterType == typeof(int)), 1));
+
+    return returnParams;
+}
+
+SqlParameter GenerateParameter(string typeName, Type parameterType, List<IParameter> parameters, int autoIncrementSeed)
+{
+    var dt = new DataTable();
+
+    dt.Columns.Add("ParameterIndex", typeof(int));
+    dt.Columns.Add("ParameterName", typeof(string));
+    dt.Columns.Add("Operator", typeof(string));
+    dt.Columns.Add("ParameterValue", parameterType);
+
+    foreach (IParameter param in parameters)
+    {
+        DataRow dr = dt.NewRow();
+        dr["ParameterIndex"] = autoIncrementSeed++;
+        dr["ParameterName"] = param.ParameterName;
+        dr["Operator"] = param.Operator;
+        dr["ParameterValue"] = param.ParameterValue;
+        dt.Rows.Add(dr);
+    }
+
+    return new SqlParameter($"@{typeName}", dt)
+    {
+        SqlDbType = SqlDbType.Structured,
+        TypeName = $"[dbo].[{typeName}]",
+        Direction = ParameterDirection.Input,
+    };
+}
 
 public class SchoolContext : DbContext
 {
@@ -126,4 +175,20 @@ public class School
 {
     public int Id { get; set; }
     public string Name { get; set; }
+}
+
+public interface IParameter
+{
+    public string ParameterName { get; set; }
+    public string ParameterValue { get; set; }
+    public Type ParameterType { get; set; }
+    public string Operator { get; set; }
+}
+
+public class UrlParameter : IParameter
+{
+    public string ParameterName { get; set; }
+    public string ParameterValue { get; set; }
+    public Type ParameterType { get; set; }
+    public string Operator { get; set; }
 }
