@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
         <LangVersion>9.0</LangVersion>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -12,6 +12,13 @@
         <PackageReference Include="Microsoft.Data.SqlClient" Version="2.0.1" />
         <PackageReference Include="Npgsql" Version="4.1.5" />
         <PackageReference Include="Dapper" Version="2.0.35" />
+
+<!--        <PackageReference Include="System.Data.Odbc" Version="6.0.0" />-->
+        <PackageReference Include="System.Data.Odbc" Version="6.0.999" />
+<!--        <PackageReference Include="System.Data.Odbc" Version="7.0.0-preview.4.22229.4" />-->
     </ItemGroup>
 
+    <ItemGroup>
+<!--        <Reference Include="C:\projects\runtime\artifacts\bin\System.Data.Odbc\net6.0-windows-Debug\System.Data.Odbc.dll"/>-->
+    </ItemGroup>
 </Project>
