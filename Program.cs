@@ -6,9 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-await using var ctx = new BlogContext();
-await ctx.Database.EnsureDeletedAsync();
-await ctx.Database.EnsureCreatedAsync();
+await using var context = new BlogContext();
+await context.Database.EnsureDeletedAsync();
+await context.Database.EnsureCreatedAsync();
+
+var blog = new Blog { Name = "Foo" };
+context.Blogs.Add(blog);
+context.SaveChanges();
+
+blog.Name = "Bar";
+
+context.ChangeTracker.DetectChanges();
+
+context.SaveChanges();
+
+Console.WriteLine("Done");
 
 public class BlogContext : DbContext
 {
@@ -24,6 +36,7 @@ public class BlogContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Blog>().Property(b => b.Computed).HasComputedColumnSql("8");
     }
 }
 
@@ -31,4 +44,5 @@ public class Blog
 {
     public int Id { get; set; }
     public string Name { get; set; }
+    public int Computed { get; set; }
 }
