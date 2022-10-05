@@ -10,25 +10,49 @@ await using var ctx = new BlogContext();
 await ctx.Database.EnsureDeletedAsync();
 await ctx.Database.EnsureCreatedAsync();
 
+ctx.Customers.Add(new Customer { Name = "foo" });
+await ctx.SaveChangesAsync();
+
+var customers = await ctx.Customers.FromSql($"SELECT * FROM Customers").ToListAsync();
+Console.WriteLine(customers[0].Name);
+
 public class BlogContext : DbContext
 {
-    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Customer> Customers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
             .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
-            //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Customer>()
+            .OwnsOne(c => c.Address/*, b => b.ToJson()*/);
     }
 }
 
-public class Blog
+public class Customer
 {
     public int Id { get; set; }
     public string Name { get; set; }
+
+    public Address Address { get; set; }
+}
+
+public class Address
+{
+    public Address(string street, string city, string postcode, string country)
+    {
+        Street = street;
+        City = city;
+        Postcode = postcode;
+        Country = country;
+    }
+
+    public string Street { get; set; }
+    public string City { get; set; }
+    public string Postcode { get; set; }
+    public string Country { get; set; }
 }
