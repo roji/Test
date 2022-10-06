@@ -22,7 +22,7 @@ using var tracerProvider = Sdk.CreateTracerProviderBuilder()
 Console.WriteLine($"*** Before: {Activity.Current?.Id}");
 using var context = new BlogContext();
 _ = context.Blogs.Any();
-_ = await context.Blogs.AnyAsync();
+// _ = await context.Blogs.AnyAsync();
 Console.WriteLine($"*** After: {Activity.Current?.Id}");
 
 // Console.WriteLine($"*** Before: {Activity.Current?.Id}");
