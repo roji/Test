@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -26,6 +24,11 @@ foreach (var digest in digests)
     context.DailyDigests.Add(digest);
 }
 
+// for (var i = 0; i < 23; i++)
+// {
+//     context.DailyDigests.Add(new() { UserId = "7be85f63-8392-4d25-85af-817400ac4a0d" });
+// }
+
 await context.SaveChangesAsync();
 
 public class BlogContext : DbContext
@@ -35,6 +38,7 @@ public class BlogContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
+            // .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
             .UseSqlServer(@"Server=localhost;Database=Issue29502;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
