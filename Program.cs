@@ -6,29 +6,49 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-await using var ctx = new BlogContext();
-await ctx.Database.EnsureDeletedAsync();
-await ctx.Database.EnsureCreatedAsync();
+await using var context = new BlogContext();
+// await context.Database.EnsureDeletedAsync();
+// await context.Database.EnsureCreatedAsync();
+
+var maxCount = 23;
+
+var digests = await context.Users
+    .OrderBy(u => u.TimeCreatedUtc)
+    .Take(maxCount)
+    .Select(u => new DailyDigest
+    {
+        User = u,
+    })
+    .ToListAsync();
+
+foreach (var digest in digests)
+{
+    context.DailyDigests.Add(digest);
+}
+
+await context.SaveChangesAsync();
 
 public class BlogContext : DbContext
 {
-    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<User> Users => Set<User>();
+    public DbSet<DailyDigest> DailyDigests => Set<DailyDigest>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
-            //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
+            .UseSqlServer(@"Server=localhost;Database=Issue29502;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
 }
 
-public class Blog
+public class User
+{
+    public string Id { get; set; } = null!;
+    public DateTime TimeCreatedUtc { get; set; }
+    public ICollection<DailyDigest> DailyDigests { get; set; } = null!;
+}
+
+public class DailyDigest
 {
     public int Id { get; set; }
-    public string Name { get; set; }
+    public User? User { get; set; }
 }
