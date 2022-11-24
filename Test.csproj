@@ -6,6 +6,11 @@
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+        <PublishAot>true</PublishAot>
+        <PublishTrimmed>true</PublishTrimmed>
+        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>
+<!--        <TrimmerSingleWarn>false</TrimmerSingleWarn>-->
     </PropertyGroup>
 
     <ItemGroup>
