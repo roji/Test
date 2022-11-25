@@ -10,25 +10,56 @@ await using var ctx = new BlogContext();
 await ctx.Database.EnsureDeletedAsync();
 await ctx.Database.EnsureCreatedAsync();
 
+var c = new Course
+{
+};
+ctx.Add(c);
+ctx.SaveChanges();
+
+var v1 = new Video
+{
+    CourseId = c.Id,
+    Duration = TimeSpan.FromMinutes(32),
+};
+ctx.Add(v1);
+
+var v2 = new Video
+{
+    CourseId = c.Id,
+    Duration = TimeSpan.FromMinutes(50),
+};
+ctx.Add(v2);
+
+ctx.SaveChanges();
+
+var course = ctx.Courses
+    .Select(c => new
+    {
+        TotalDuration = EF.Functions.Sum(c.Videos.Select(v => v.Duration)),
+    }).FirstOrDefault();
+
 public class BlogContext : DbContext
 {
-    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Video> Videos { get; set; }
+    public DbSet<Course> Courses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
-            //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
+            .UseNpgsql(@"Host=localhost;Username=test;Password=test")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-    }
 }
 
-public class Blog
+public class Course
 {
     public int Id { get; set; }
-    public required string Name { get; set; }
+    public List<Video> Videos { get; set; }
+}
+
+public class Video
+{
+    public int Id { get; set; }
+    public TimeSpan Duration { get; set; }
+    public int CourseId { get; set; }
+    public Course Course { get; set; }
 }
