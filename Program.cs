@@ -1,34 +1,71 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-await using var ctx = new BlogContext();
-await ctx.Database.EnsureDeletedAsync();
-await ctx.Database.EnsureCreatedAsync();
-
-public class BlogContext : DbContext
+using (var context = new ReproDbContext())
 {
-    public DbSet<Blog> Blogs { get; set; }
+    context.Database.Migrate();
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
-            //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging();
+    var parent = new Parent() { Name = "parent" };
+    context.Add(parent);
+    context.SaveChanges();
+
+    var child = new Child() { ParentId = parent.ParentId, Name = "child" };
+    context.Add(child);
+    context.SaveChanges();
+
+    context.Remove(parent);
+    context.SaveChanges();
+}
+
+class Parent
+{
+    public Guid ParentId { get; set; }
+    public string Name { get; set; }
+}
+
+class Child
+{
+    public Guid ChildId { get; set; }
+    public Guid ParentId { get; set; }
+    public Parent Parent { get; set; }
+    public string Name { get; set; }
+}
+
+class ReproDbContext : DbContext
+{
+    public DbSet<Parent> Parents { get; set; }
+    public DbSet<Child> Children { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-    }
-}
+        var parentBuilder = modelBuilder.Entity<Parent>();
+        parentBuilder.ToTable(nameof(Parent));
+        parentBuilder.HasKey(p => p.ParentId);
+        parentBuilder.Property(p => p.ParentId).HasDefaultValueSql("NEWSEQUENTIALID()");
+        parentBuilder.Property(p => p.Name).IsRequired();
 
-public class Blog
-{
-    public int Id { get; set; }
-    public required string Name { get; set; }
+        parentBuilder.DeleteUsingStoredProcedure(
+            "DeleteParent",
+            sp =>
+            {
+                sp.HasOriginalValueParameter(p => p.ParentId);
+                sp.HasRowsAffectedReturnValue();
+            });
+
+        var childBuilder = modelBuilder.Entity<Child>();
+        childBuilder.ToTable(nameof(Child));
+        childBuilder.HasKey(c => c.ChildId);
+        childBuilder.Property(c => c.ChildId).HasDefaultValueSql("NEWSEQUENTIALID()");
+        childBuilder.Property(c => c.Name).IsRequired();
+        childBuilder.HasOne(c => c.Parent).WithMany().HasForeignKey(c => c.ParentId);
+    }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder
+            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging();
+    }
 }
