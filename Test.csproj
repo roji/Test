@@ -2,19 +2,18 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />
-        <PackageReference Include="Npgsql" Version="7.0.0" />
-        <PackageReference Include="Dapper" Version="2.0.123" />
+<!--    <ItemGroup>-->
+<!--        <PackageReference Include="Microsoft.Data.SqlClient" Version="5.0.1" />-->
+<!--    </ItemGroup>-->
 
-<!--        <PackageReference Include="Npgsql.NodaTime" Version="7.0.0" />-->
-<!--        <PackageReference Include="Npgsql.NetTopologySuite" Version="7.0.0" />-->
+    <ItemGroup>
+        <ProjectReference Include="..\sqlclient\src\Microsoft.Data.SqlClient\netcore\src\Microsoft.Data.SqlClient.csproj" />
     </ItemGroup>
 
 </Project>
