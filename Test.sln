@@ -2,6 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test.csproj", "{771109D2-AC7E-40C8-8F16-649832A10284}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Npgsql", "Npgsql", "{8F035B84-42A8-4FEA-BE12-D973912D1C6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Npgsql", "..\npgsql\src\Npgsql\Npgsql.csproj", "{AA6B2708-560A-4515-B4D9-3C73FC82D74D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Npgsql.NetTopologySuite", "..\npgsql\src\Npgsql.NetTopologySuite\Npgsql.NetTopologySuite.csproj", "{9AB84285-8D46-473B-9998-ED4D9154EED8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Npgsql.SourceGenerators", "..\npgsql\src\Npgsql.SourceGenerators\Npgsql.SourceGenerators.csproj", "{24488A56-C5C1-4B93-ABFF-E5277C6384E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Npgsql.NodaTime", "..\npgsql\src\Npgsql.NodaTime\Npgsql.NodaTime.csproj", "{8D12E925-76F0-4D68-ABA7-B34B4CB4764B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,7 +22,27 @@ Global
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA6B2708-560A-4515-B4D9-3C73FC82D74D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA6B2708-560A-4515-B4D9-3C73FC82D74D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA6B2708-560A-4515-B4D9-3C73FC82D74D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA6B2708-560A-4515-B4D9-3C73FC82D74D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AB84285-8D46-473B-9998-ED4D9154EED8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AB84285-8D46-473B-9998-ED4D9154EED8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AB84285-8D46-473B-9998-ED4D9154EED8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AB84285-8D46-473B-9998-ED4D9154EED8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24488A56-C5C1-4B93-ABFF-E5277C6384E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24488A56-C5C1-4B93-ABFF-E5277C6384E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24488A56-C5C1-4B93-ABFF-E5277C6384E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24488A56-C5C1-4B93-ABFF-E5277C6384E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D12E925-76F0-4D68-ABA7-B34B4CB4764B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D12E925-76F0-4D68-ABA7-B34B4CB4764B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D12E925-76F0-4D68-ABA7-B34B4CB4764B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D12E925-76F0-4D68-ABA7-B34B4CB4764B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{AA6B2708-560A-4515-B4D9-3C73FC82D74D} = {8F035B84-42A8-4FEA-BE12-D973912D1C6B}
+		{9AB84285-8D46-473B-9998-ED4D9154EED8} = {8F035B84-42A8-4FEA-BE12-D973912D1C6B}
+		{24488A56-C5C1-4B93-ABFF-E5277C6384E7} = {8F035B84-42A8-4FEA-BE12-D973912D1C6B}
+		{8D12E925-76F0-4D68-ABA7-B34B4CB4764B} = {8F035B84-42A8-4FEA-BE12-D973912D1C6B}
 	EndGlobalSection
 EndGlobal
