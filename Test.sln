@@ -2,6 +2,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test.csproj", "{771109D2-AC7E-40C8-8F16-649832A10284}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pgvector", "..\pgvector-dotnet\src\Pgvector\Pgvector.csproj", "{CE0791D4-4035-47DB-B679-0F5670FDE966}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pgvector.EntityFrameworkCore", "..\pgvector-dotnet\src\Pgvector.EntityFrameworkCore\Pgvector.EntityFrameworkCore.csproj", "{244BF0FF-10EE-4983-A05D-6403A82F16A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Npgsql", "..\npgsql\src\Npgsql\Npgsql.csproj", "{712688B0-FAEA-48F3-9C37-8CE842A80E62}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFCore.PG", "..\efcore.pg\src\EFCore.PG\EFCore.PG.csproj", "{9F0A5131-024F-412E-A74F-9366C6164097}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Npgsql.SourceGenerators", "..\npgsql\src\Npgsql.SourceGenerators\Npgsql.SourceGenerators.csproj", "{53D878DB-CA35-4D94-9178-C7DF07E081AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,6 +22,26 @@ Global
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE0791D4-4035-47DB-B679-0F5670FDE966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE0791D4-4035-47DB-B679-0F5670FDE966}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE0791D4-4035-47DB-B679-0F5670FDE966}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE0791D4-4035-47DB-B679-0F5670FDE966}.Release|Any CPU.Build.0 = Release|Any CPU
+		{244BF0FF-10EE-4983-A05D-6403A82F16A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{244BF0FF-10EE-4983-A05D-6403A82F16A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{244BF0FF-10EE-4983-A05D-6403A82F16A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{244BF0FF-10EE-4983-A05D-6403A82F16A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{712688B0-FAEA-48F3-9C37-8CE842A80E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{712688B0-FAEA-48F3-9C37-8CE842A80E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{712688B0-FAEA-48F3-9C37-8CE842A80E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{712688B0-FAEA-48F3-9C37-8CE842A80E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F0A5131-024F-412E-A74F-9366C6164097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F0A5131-024F-412E-A74F-9366C6164097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F0A5131-024F-412E-A74F-9366C6164097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F0A5131-024F-412E-A74F-9366C6164097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53D878DB-CA35-4D94-9178-C7DF07E081AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53D878DB-CA35-4D94-9178-C7DF07E081AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53D878DB-CA35-4D94-9178-C7DF07E081AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53D878DB-CA35-4D94-9178-C7DF07E081AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
