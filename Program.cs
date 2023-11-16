@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,9 +17,9 @@ public class BlogContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
-            .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
+            // .UseSqlServer(@"Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
             //.UseSqlite("Filename=:memory:")
-            // .UseNpgsql(@"Host=localhost;Username=test;Password=test")
+            .UseNpgsql(@"Host=localhost;Username=test;Password=test")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
 
