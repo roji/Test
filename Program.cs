@@ -17,7 +17,8 @@ public class BlogContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
-            .UseNpgsql("Host=localhost;Username=test;Password=test")
+            .UseSqlServer("Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false")
+            // .UseNpgsql("Host=localhost;Username=test;Password=test")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
 }
