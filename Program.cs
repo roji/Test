@@ -7,12 +7,14 @@ using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
+
 await using var ctx = new BlogContext();
 await ctx.Database.EnsureDeletedAsync();
 await ctx.Database.EnsureCreatedAsync();
 
 var s = "foo";
-_ = ctx.Blogs.Where(b => b.Name == s).ToList();
+_ = ctx.Blogs.Select(b => b.Name).ToList();
+// _ = ctx.Blogs.Select(b => new { Foo = b.Name }).ToList();
 
 public class BlogContext : DbContext
 {
@@ -28,6 +30,6 @@ public class BlogContext : DbContext
 public class Blog
 {
     public int Id { get; set; }
-    public string? Name { get; set; }
+    public string Name { get; set; }
 }
 
