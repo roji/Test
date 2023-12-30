@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
-    <!--      <EfCoreVersion>3.1.27</EfCoreVersion>-->
+
+    <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.EntityFrameworkCore.GeneratedInterceptors</InterceptorsPreviewNamespaces>
+
+      <!--      <EfCoreVersion>3.1.27</EfCoreVersion>-->
     <!--      <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>-->
     <!--      <NpgsqlVersion>3.1.18</NpgsqlVersion>-->
     <!--      <EfCoreVersion>6.0.11</EfCoreVersion>-->
@@ -19,6 +22,10 @@
   -->
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.8.0" />
+
     <!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)" />-->
     <!--      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />-->
     <!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />-->

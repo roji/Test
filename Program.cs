@@ -1,9 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Build.Locator;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Editing;
+using Microsoft.CodeAnalysis.Formatting;
+using Microsoft.CodeAnalysis.MSBuild;
+using Microsoft.CodeAnalysis.Simplification;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -16,56 +25,119 @@ using static System.Linq.Expressions.Expression;
 
 await using var ctx = new BlogContext();
 
-// await ctx.Database.EnsureDeletedAsync();
-// await ctx.Database.EnsureCreatedAsync();
+//await ctx.Database.EnsureDeletedAsync();
+//await ctx.Database.EnsureCreatedAsync();
+
 // ctx.Blogs.Add(new Blog { Name = "FooBlog", Posts = new List<Post> { new() { Title = "Post1" }, new() { Title = "Post2" }}});
 // ctx.Blogs.Add(new Blog { Name = "BarBlog", Posts = new List<Post> { new() { Title = "Post3" } }});
 // await ctx.SaveChangesAsync();
 
-if (args.Length > 0 && args[0] == "regenerate")
+// Check if the current assembly contains the InterceptsLocationAttribute; if not, we perform pre-compilation.
+// (note that it's a file-scoped type, so complicated to look up)
+if (!Assembly.GetExecutingAssembly().GetTypes().Any(t => t.Name.Contains("InterceptsLocationAttribute")))
 {
-    var services = new ServiceCollection()
-        .AddEntityFrameworkDesignTimeServices()
-        .AddDbContextDesignTimeServices(ctx);
-    var npgsqlDesignTimeServices = new SqlServerDesignTimeServices();
-    npgsqlDesignTimeServices.ConfigureDesignTimeServices(services);
-    var serviceProvider = services.BuildServiceProvider();
-    var precompiledQueriesCodeGenerator = serviceProvider.GetRequiredService<IPrecompiledQueryCodeGenerator>();
-    await precompiledQueriesCodeGenerator.GeneratePrecompiledQueries("/home/roji/projects/test/Test.csproj", ctx, outputDir: "/home/roji/projects/test");
-    return;
+    await GeneratePrecompiledQueries("/Users/roji/projects/test/Test.csproj", ctx, "/Users/roji/projects/test", new());
 }
+
+Console.WriteLine("[InterceptsLocation] found, executing query...");
 
 var name = "foo";
 _ = ctx.Blogs.Where(b => b.Name == name).ToList();
 
-// _ = ctx.Blogs.Include(b => b.Posts).ToList();
-//
-// _ = ctx.Blogs.Select(b => new { Id = b.Id, Name = b.Name }).ToList();
+async Task GeneratePrecompiledQueries(
+    string projectFilePath,
+    DbContext dbContext,
+    string outputDir,
+    List<PrecompiledQueryCodeGenerator.QueryPrecompilationError> precompilationErrors,
+    CancellationToken cancellationToken = default)
+{
+    // https://gist.github.com/DustinCampbell/32cd69d04ea1c08a16ae5c4cd21dd3a3
+    MSBuildLocator.RegisterDefaults();
 
-// FAILS
-// _ = ctx.Blogs.Select(b => new { b.Id, b.Name }).ToList();
+    Console.Error.WriteLine("Loading project...");
+    using var workspace = MSBuildWorkspace.Create();
 
-// _ = ctx.Blogs.Where(b => b.Name == ctx.Blogs.Single(b => b.Id == 3).Name).ToList();
+    var project = await workspace.OpenProjectAsync(projectFilePath, cancellationToken: cancellationToken)
+        .ConfigureAwait(false);
 
-// ctx.Blogs.Where(b => b.Name == "foo").ExecuteDelete();
+    if (!project.SupportsCompilation)
+    {
+        throw new NotSupportedException("The project does not support compilation");
+    }
 
-// ctx.Blogs.Where(b => b.Name == "foo").ExecuteUpdate(s => s.SetProperty(b => b.Name, "bar"));
+    Console.WriteLine("Compiling project...");
+    var compilation = (await project.GetCompilationAsync(cancellationToken).ConfigureAwait(false))!;
 
-// await ctx.Blogs.Where(b => b.Name == "foo").ExecuteDeleteAsync();
+    var errorDiagnostics = compilation.GetDiagnostics(cancellationToken).Where(d => d.Severity == DiagnosticSeverity.Error).ToArray();
+    if (errorDiagnostics.Any())
+    {
+        Console.Error.WriteLine("Compilation failed with errors:");
+        Console.Error.WriteLine();
+        foreach (var diagnostic in errorDiagnostics)
+        {
+            Console.WriteLine(diagnostic);
+        }
 
-// await ctx.Blogs.Where(b => b.Name == "foo").ExecuteDeleteAsync();
+        Environment.Exit(1);
+    }
 
-// var name = await ctx.Blogs.Where(b => b.Id == 1).SumAsync(b => b.Id);
+    Console.WriteLine($"Compiled assembly {compilation.Assembly.Name}");
 
-// var blogs = ctx.Blogs.Include(b => b.Posts).AsSplitQuery().Where(b => b.Id == 1).ToList();
-// foreach (var blog in blogs)
-// {
-//     Console.WriteLine($"Blog: {blog.Name}: [{string.Join(", ", blog.Posts.Select(p => p.Title))}]");
-// }
+    var syntaxGenerator = SyntaxGenerator.GetGenerator(project);
 
-// var name = ctx.Blogs.Where(b => b.Id == 1).Include(b => b.Posts).ToListAsync();
+    var precompiledCodeGenerator = new PrecompiledQueryCodeGenerator();
+    var generatedFiles = precompiledCodeGenerator.GeneratePrecompiledQueries(
+        compilation, syntaxGenerator, dbContext, precompilationErrors, additionalAssembly: null, cancellationToken);
 
-// var blogs = ctx.Blogs.Where(b => b.Id < 100).ToList();
+    foreach (var generatedFile in generatedFiles)
+    {
+        // var document = project.AddDocument(OutputFileName, bootstrapperSyntaxRoot);
+
+        // var generatedSource = (await generatedSyntaxTree.GetRootAsync(cancellationToken).ConfigureAwait(false))
+            // .ToFullString();
+        // var outputFilePath = Path.Combine(outputDir, OutputFileName);
+        // File.WriteAllText(outputFilePath, bootstrapperText);
+
+        var document = project.AddDocument("EfGeneratedInterceptors.cs", generatedFile.Code);
+
+        // document = await ImportAdder.AddImportsAsync(document, options: null, cancellationToken).ConfigureAwait(false);
+        // document = await ImportAdder.AddImportsFromSymbolAnnotationAsync(
+        //     document, Simplifier.AddImportsAnnotation, cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        // document = await ImportAdder.AddImportsAsync(document, options: null, cancellationToken).ConfigureAwait(false);
+
+        // Run the simplifier to e.g. get rid of unneeded parentheses
+        var syntaxRootFoo = (await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false))!;
+        var annotatedDocument = document.WithSyntaxRoot(syntaxRootFoo.WithAdditionalAnnotations(Simplifier.Annotation));
+        document = await Simplifier.ReduceAsync(annotatedDocument, optionSet: null, cancellationToken).ConfigureAwait(false);
+
+        // format any node with explicit formatter annotation
+        // document = await Formatter.FormatAsync(document, Formatter.Annotation, cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        // format any elastic whitespace
+        // document = await Formatter.FormatAsync(document, SyntaxAnnotation.ElasticAnnotation, cancellationToken: cancellationToken).ConfigureAwait(false);
+
+        document = await Formatter.FormatAsync(document, options: null, cancellationToken).ConfigureAwait(false);
+
+        // document = await CaseCorrector.CaseCorrectAsync(document, CaseCorrector.Annotation, cancellationToken).ConfigureAwait(false);
+
+
+        var outputFilePath = Path.Combine(outputDir, "EfGeneratedInterceptors.cs");
+        var finalSyntaxTree = (await document.GetSyntaxTreeAsync(cancellationToken).ConfigureAwait(false))!;
+        var finalText = await finalSyntaxTree.GetTextAsync(cancellationToken).ConfigureAwait(false);
+        File.WriteAllText(outputFilePath, finalText.ToString());
+
+        // TODO: This is nicer - it adds the file to the project, but also adds a <Compile> node in the csproj for some reason.
+        // var applied = workspace.TryApplyChanges(document.Project.Solution);
+        // if (!applied)
+        // {
+        //     Console.WriteLine("Failed to apply changes to project");
+        // }
+    }
+
+    // Console.WriteLine($"Query precompilation complete, processed {queriesPrecompiled} queries.");
+    Console.WriteLine("Query precompilation complete.");
+}
 
 public class BlogContext : DbContext
 {
@@ -93,3 +165,4 @@ public class Post
 
     public Blog Blog { get; set; }
 }
+
