@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -16,14 +17,15 @@ using static System.Linq.Expressions.Expression;
 
 await using var ctx = new BlogContext();
 
-// await ctx.Database.EnsureDeletedAsync();
-// await ctx.Database.EnsureCreatedAsync();
 // ctx.Blogs.Add(new Blog { Name = "FooBlog", Posts = new List<Post> { new() { Title = "Post1" }, new() { Title = "Post2" }}});
 // ctx.Blogs.Add(new Blog { Name = "BarBlog", Posts = new List<Post> { new() { Title = "Post3" } }});
 // await ctx.SaveChangesAsync();
 
-if (args.Length > 0 && args[0] == "regenerate")
+// Check if the current assembly contains the InterceptsLocationAttribute; if not, we perform pre-compilation.
+// (note that it's a file-scoped type, so complicated to look up)
+if (!Assembly.GetExecutingAssembly().GetTypes().Any(t => t.Name.Contains("InterceptsLocationAttribute")))
 {
+    Console.WriteLine("[InterceptsLocation] not found, going into pre-compilation...");
     var services = new ServiceCollection()
         .AddEntityFrameworkDesignTimeServices()
         .AddDbContextDesignTimeServices(ctx);
@@ -31,9 +33,14 @@ if (args.Length > 0 && args[0] == "regenerate")
     npgsqlDesignTimeServices.ConfigureDesignTimeServices(services);
     var serviceProvider = services.BuildServiceProvider();
     var precompiledQueriesCodeGenerator = serviceProvider.GetRequiredService<IPrecompiledQueryCodeGenerator>();
-    await precompiledQueriesCodeGenerator.GeneratePrecompiledQueries("/home/roji/projects/test/Test.csproj", ctx, outputDir: "/home/roji/projects/test");
+    await precompiledQueriesCodeGenerator.GeneratePrecompiledQueries("/Users/roji/projects/test/Test.csproj", ctx, outputDir: "/Users/roji/projects/test");
     return;
 }
+
+Console.WriteLine("[InterceptsLocation] found, executing query...");
+
+await ctx.Database.EnsureDeletedAsync();
+await ctx.Database.EnsureCreatedAsync();
 
 var name = "foo";
 _ = ctx.Blogs.Where(b => b.Name == name).ToList();
