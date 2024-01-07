@@ -42,37 +42,22 @@ Console.WriteLine("[InterceptsLocation] found, executing query...");
 await ctx.Database.EnsureDeletedAsync();
 await ctx.Database.EnsureCreatedAsync();
 
+// Query with a captured variable
 var name = "foo";
 _ = ctx.Blogs.Where(b => b.Name == name).ToList();
 
-// _ = ctx.Blogs.Include(b => b.Posts).ToList();
-//
-// _ = ctx.Blogs.Select(b => new { Id = b.Id, Name = b.Name }).ToList();
+// Query projecting out an anonymous type (generic interceptor):
+_ = ctx.Blogs.Select(b => new { b.Id, b.Name }).ToList();
 
-// FAILS
-// _ = ctx.Blogs.Select(b => new { b.Id, b.Name }).ToList();
-
-// _ = ctx.Blogs.Where(b => b.Name == ctx.Blogs.Single(b => b.Id == 3).Name).ToList();
-
-// ctx.Blogs.Where(b => b.Name == "foo").ExecuteDelete();
-
-// ctx.Blogs.Where(b => b.Name == "foo").ExecuteUpdate(s => s.SetProperty(b => b.Name, "bar"));
-
-// await ctx.Blogs.Where(b => b.Name == "foo").ExecuteDeleteAsync();
-
-// await ctx.Blogs.Where(b => b.Name == "foo").ExecuteDeleteAsync();
-
-// var name = await ctx.Blogs.Where(b => b.Id == 1).SumAsync(b => b.Id);
-
-// var blogs = ctx.Blogs.Include(b => b.Posts).AsSplitQuery().Where(b => b.Id == 1).ToList();
-// foreach (var blog in blogs)
-// {
-//     Console.WriteLine($"Blog: {blog.Name}: [{string.Join(", ", blog.Posts.Select(p => p.Title))}]");
-// }
-
-// var name = ctx.Blogs.Where(b => b.Id == 1).Include(b => b.Posts).ToListAsync();
-
-// var blogs = ctx.Blogs.Where(b => b.Id < 100).ToList();
+// Queries that cannot be intercepted (property access directly inside foreach):
+foreach (var blog in ctx.Blogs)
+{
+    Console.WriteLine(blog.Id);
+}
+await foreach (var blog in ctx.Blogs)
+{
+    Console.WriteLine(blog.Id);
+}
 
 public class BlogContext : DbContext
 {
