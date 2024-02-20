@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-await using var ctx = new BlogContext();
-await ctx.Database.EnsureDeletedAsync();
-await ctx.Database.EnsureCreatedAsync();
+await using var context = new BlogContext();
+await context.Database.EnsureDeletedAsync();
+await context.Database.EnsureCreatedAsync();
 
 public class BlogContext : DbContext
 {
