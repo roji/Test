@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-await using var ctx = new BlogContext();
-await ctx.Database.EnsureDeletedAsync();
-await ctx.Database.EnsureCreatedAsync();
+await using var context = new BlogContext();
+await context.Database.EnsureDeletedAsync();
+await context.Database.EnsureCreatedAsync();
+
+_ = context.Blogs.Where(b => b.Posts.Contains(new Post { Id = 8, Title = "Post 1" })).ToList();
 
 public class BlogContext : DbContext
 {
@@ -27,4 +29,13 @@ public class Blog
 {
     public int Id { get; set; }
     public string Name { get; set; }
+
+    public List<Post> Posts { get; set; }
+}
+
+public class Post
+{
+    public int Id { get; set; }
+    public string Title { get; set; }
+    public Blog Blog { get; set; }
 }
