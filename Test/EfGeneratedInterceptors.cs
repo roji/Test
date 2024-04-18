@@ -11,10 +11,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Linq.Expressions;
@@ -30,22 +28,14 @@ namespace Microsoft.EntityFrameworkCore.GeneratedInterceptors
     {
         #region Query1
 
-        [InterceptsLocation("/Users/roji/projects/test/Program.cs", 45, 15)]
+        [InterceptsLocation("/Users/roji/projects/test/Test/Program.cs", 31, 19)]
         public static IQueryable<TSource> Query1_Where1<TSource>(this IQueryable<TSource> source, Expression<Func<TSource, bool>> predicate)
         {
             var precompiledQueryContext = new PrecompiledQueryContext<TSource>(((IInfrastructure<DbContext>)source).Instance);
-            var queryContext = precompiledQueryContext.QueryContext;
-            var binary1 = (BinaryExpression)predicate.Body;
-            var member2 = (MemberExpression)binary1.Right;
-            queryContext.AddParameter(
-                "__name_0",
-                Expression.Lambda<Func<object>>(Expression.Convert(member2, typeof(object)))
-                .Compile(preferInterpretation: true)
-                .Invoke());
             return precompiledQueryContext;
         }
 
-        [InterceptsLocation("/Users/roji/projects/test/Program.cs", 45, 42)]
+        [InterceptsLocation("/Users/roji/projects/test/Test/Program.cs", 31, 47)]
         public static List<TSource> Query1_ToList2<TSource>(this IEnumerable<TSource> source)
         {
             var precompiledQueryContext = (PrecompiledQueryContext<TSource>)source;
@@ -63,28 +53,13 @@ namespace Microsoft.EntityFrameworkCore.GeneratedInterceptors
                 dbContext.GetService<ShapedQueryCompilingExpressionVisitorDependencies>(),
                 dbContext.GetService<RelationalShapedQueryCompilingExpressionVisitorDependencies>(),
                 dbContext.GetService<RelationalCommandBuilderDependencies>());
-            var commandBuilderDependencies = materializerLiftableConstantContext.CommandBuilderDependencies;
-            var relationalCommandTemplate = (IRelationalCommandTemplate)new RelationalCommand(commandBuilderDependencies, "SELECT [b].[Id], [b].[Name]\nFROM [Blogs] AS [b]\nWHERE [b].[Name] IS NULL", new IRelationalParameter[] { });
-            var relationalCommandTemplate0 = (IRelationalCommandTemplate)new RelationalCommand(commandBuilderDependencies, "SELECT [b].[Id], [b].[Name]\nFROM [Blogs] AS [b]\nWHERE [b].[Name] = @__name_0", new IRelationalParameter[] { new TypeMappedRelationalParameter("__name_0", "@__name_0", relationalTypeMappingSource.FindMapping(typeof(string), "nvarchar(max)", false, true, null, false, false, null, null), true, ParameterDirection.Input) });
+            var relationalCommandTemplate = (IRelationalCommandTemplate)new RelationalCommand(materializerLiftableConstantContext.CommandBuilderDependencies, "SELECT [b].[Id], [b].[Name]\nFROM [Blogs] AS [b]\nWHERE [b].[Name] = N'foo'", new IRelationalParameter[] { });
             var emptyValueBuffer = ValueBuffer.Empty;
             var blogEntityType = materializerLiftableConstantContext.Dependencies.Model.FindEntityType("Blog");
             var key = blogEntityType.FindPrimaryKey();
             var emptySnapshot = Snapshot.Empty;
             var blogEntityType0 = (RuntimeEntityType)blogEntityType;
-            return (QueryContext queryContext) => SingleQueryingEnumerable.Create((RelationalQueryContext)queryContext, (parameters) =>
-{
-    IRelationalCommandTemplate result = default;
-    if (parameters["__name_0"] == null)
-    {
-        result = relationalCommandTemplate;
-    }
-    else
-    {
-        result = relationalCommandTemplate0;
-    }
-
-    return result;
-}, null, (QueryContext queryContext, DbDataReader dataReader, ResultContext resultContext, SingleQueryResultCoordinator resultCoordinator) =>
+            return (QueryContext queryContext) => SingleQueryingEnumerable.Create((RelationalQueryContext)queryContext, (parameters) => relationalCommandTemplate, null, (QueryContext queryContext, DbDataReader dataReader, ResultContext resultContext, SingleQueryResultCoordinator resultCoordinator) =>
 {
     IEntityType entityType1 = default;
     bool hasNullKey1 = default;
