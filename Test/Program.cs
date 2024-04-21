@@ -28,6 +28,8 @@ await using var context = new BlogContext();
 //await context.Database.EnsureDeletedAsync();
 //await context.Database.EnsureCreatedAsync();
 
+var blogs = await context.Blogs.Where(b => b.Id > 3).ToListAsync();
+
 public class BlogContext : DbContext
 {
     public DbSet<Blog> Blogs { get; set; }

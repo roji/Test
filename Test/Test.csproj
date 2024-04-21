@@ -5,6 +5,11 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
 
+<!--
+    <PublishAot>true</PublishAot>
+    <RuntimeIdentifiers>osx-arm64</RuntimeIdentifiers>
+-->
+
     <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.EntityFrameworkCore.GeneratedInterceptors</InterceptorsPreviewNamespaces>
 
       <!--      <EfCoreVersion>3.1.27</EfCoreVersion>-->
