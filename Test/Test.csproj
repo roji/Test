@@ -12,6 +12,7 @@
 
     <InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.EntityFrameworkCore.GeneratedInterceptors</InterceptorsPreviewNamespaces>
 
+    <EfNukeDynamic>true</EfNukeDynamic>
       <!--      <EfCoreVersion>3.1.27</EfCoreVersion>-->
     <!--      <MicrosoftExtensionsVersion>$(EfCoreVersion)</MicrosoftExtensionsVersion>-->
     <!--      <NpgsqlVersion>3.1.18</NpgsqlVersion>-->
@@ -41,6 +42,13 @@
   <ItemGroup>
     <ProjectReference Include="../../efcore/src/EFCore.SqlServer/EFCore.SqlServer.csproj" />
     <ProjectReference Include="../../efcore/src/EFCore.Design/EFCore.Design.csproj" />
+
+      <ProjectReference Include="../../efcore/src/EFCore.Analyzers/EFCore.Analyzers.csproj"
+                        PrivateAssets="all"
+                        ReferenceOutputAssembly="false"
+                        OutputItemType="Analyzer"
+                        SetTargetFramework="TargetFramework=netstandard2.0" />
+
   </ItemGroup>
   <!--   <ItemGroup>-->
   <!--       <PackageReference Include="Microsoft.Net.Compilers.Toolset" Version="$(MicrosoftNetCompilersToolsetVersion)" />-->

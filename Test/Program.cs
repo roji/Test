@@ -30,6 +30,9 @@ await using var context = new BlogContext();
 
 var blogs = await context.Blogs.Where(b => b.Id > 3).ToListAsync();
 
+// var query = context.Blogs;
+// await query.ToListAsync();
+
 public class BlogContext : DbContext
 {
     public DbSet<Blog> Blogs { get; set; }

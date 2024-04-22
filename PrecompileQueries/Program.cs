@@ -20,6 +20,8 @@ async Task GeneratePrecompiledQueries(
     List<PrecompiledQueryCodeGenerator.QueryPrecompilationError> precompilationErrors,
     CancellationToken cancellationToken = default)
 {
+    var outputFilePath = Path.Combine(outputDir, "EfGeneratedInterceptors.cs");
+
     // https://gist.github.com/DustinCampbell/32cd69d04ea1c08a16ae5c4cd21dd3a3
     MSBuildLocator.RegisterDefaults();
 
@@ -91,7 +93,7 @@ async Task GeneratePrecompiledQueries(
         // document = await CaseCorrector.CaseCorrectAsync(document, CaseCorrector.Annotation, cancellationToken).ConfigureAwait(false);
 
 
-        var outputFilePath = Path.Combine(outputDir, "EfGeneratedInterceptors.cs");
+        Console.WriteLine(outputFilePath);
         var finalSyntaxTree = (await document.GetSyntaxTreeAsync(cancellationToken).ConfigureAwait(false))!;
         var finalText = await finalSyntaxTree.GetTextAsync(cancellationToken).ConfigureAwait(false);
         File.WriteAllText(outputFilePath, finalText.ToString());
