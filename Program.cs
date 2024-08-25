@@ -11,8 +11,6 @@ await using var context = new BlogContext();
 await context.Database.EnsureDeletedAsync();
 await context.Database.EnsureCreatedAsync();
 
-_ = context.Blogs.Where(b => b.Posts.Contains(new Post { Id = 8, Title = "Post 1" })).ToList();
-
 public class BlogContext : DbContext
 {
     public DbSet<Blog> Blogs { get; set; }
@@ -23,6 +21,10 @@ public class BlogContext : DbContext
             // .UseNpgsql("Host=localhost;Username=test;Password=test")
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+    }
 }
 
 public class Blog
