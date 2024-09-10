@@ -7,17 +7,26 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using Microsoft.Extensions.Logging;
 
 await using var context = new BlogContext();
 await context.Database.EnsureDeletedAsync();
 await context.Database.EnsureCreatedAsync();
 
-_ = await context.Blogs.ToListAsync();
+context.Sessions.Add(new Session
+{
+    Id = new Guid("a456bf06-89c3-458d-93d8-ce21eeb1790b"),
+    PartitionKey = "pk1",
+    Name = "foo",
+});
+await context.SaveChangesAsync();
+
+_ = await context.Sessions.ToListAsync();
 
 public class BlogContext : DbContext
 {
-    public DbSet<Blog> Blogs { get; set; }
+    public DbSet<Session> Sessions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder
@@ -37,16 +46,22 @@ public class BlogContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Blog>()
+        modelBuilder.Entity<Session>()
             .ToContainer("test")
-            .HasPartitionKey(b => b.PartitionKey);
+            .HasPartitionKey(b => b.PartitionKey)
+            // .HasPartitionKey(b => new { b.TenantId, b.UserId, b.SessionId })
+            .Property(s => s.Id).HasValueGenerator<GuidValueGenerator>();
     }
 }
 
-public class Blog
+public class Session
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
+
     public string PartitionKey { get; set; }
+    // public string TenantId { get; set; } = null!;
+    // public Guid UserId { get; set; }
+    // public int SessionId { get; set; }
 
     public string Name { get; set; }
 
@@ -57,5 +72,5 @@ public class Post
 {
     public int Id { get; set; }
     public string Title { get; set; }
-    public Blog Blog { get; set; }
+    public Session Session { get; set; }
 }
