@@ -14,9 +14,9 @@
       <MicrosoftExtensionsVersion>9.0.13</MicrosoftExtensionsVersion>
       <NpgsqlVersion>9.0.4</NpgsqlVersion> -->
 
-      <EfCoreVersion>10.0.3</EfCoreVersion>
-      <MicrosoftExtensionsVersion>10.0.3</MicrosoftExtensionsVersion>
-      <NpgsqlVersion>10.0.0</NpgsqlVersion>
+      <EfCoreVersion>10.0.6</EfCoreVersion>
+      <MicrosoftExtensionsVersion>10.0.6</MicrosoftExtensionsVersion>
+      <NpgsqlVersion>10.0.1</NpgsqlVersion>
 
       <!-- <EfCoreVersion>11.0.0-preview.2.26159.112</EfCoreVersion>
       <MicrosoftExtensionsVersion>11.0.0-preview.2.26159.112</MicrosoftExtensionsVersion>
@@ -33,11 +33,12 @@
 
   <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="$(MicrosoftExtensionsVersion)" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)" />
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="$(EfCoreVersion)" />-->
 
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(EfCoreVersion)" />-->
+<!--      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="$(EfCoreVersion)" />-->
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Cosmos" Version="$(EfCoreVersion)" />
+<!--      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(NpgsqlVersion)" />-->
 
 <!--      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime" Version="$(NpgsqlVersion)" />-->
 <!--      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.NetTopologySuite" Version="$(NpgsqlVersion)" />-->
