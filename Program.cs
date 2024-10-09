@@ -5,8 +5,10 @@ using Microsoft.Data.SqlClient;
 using Npgsql;
 using NpgsqlTypes;
 
-await using var conn = new SqlConnection("Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false");
-await conn.OpenAsync();
+await using var connection = new SqlConnection("Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false");
+await connection.OpenAsync();
 
-// await using var dataSource = NpgsqlDataSource.Create("Host=localhost;Username=test;Password=test");
-// await using var conn = await dataSource.OpenConnectionAsync();
+// var builder = new NpgsqlDataSourceBuilder("Host=localhost;Username=test;Password=test");
+// await using var dataSource = builder.Build();
+// await using var connection = await dataSource.OpenConnectionAsync();
+
