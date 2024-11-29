@@ -1,14 +1,31 @@
-﻿using System;
-using System.Threading.Tasks;
-using Dapper;
-using Microsoft.Data.SqlClient;
-using Npgsql;
-using NpgsqlTypes;
+using System;
+using System.Linq;
+using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Reports;
+using BenchmarkDotNet.Running;
+using Perfolizer.Horology;
+using Test;
 
-await using var connection = new SqlConnection("Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false");
-await connection.OpenAsync();
+//     DefaultConfig.Instance.WithSummaryStyle(SummaryStyle.Default.WithTimeUnit(TimeUnit.Microsecond)));
 
-// var builder = new NpgsqlDataSourceBuilder("Host=localhost;Username=test;Password=test");
-// await using var dataSource = builder.Build();
-// await using var connection = await dataSource.OpenConnectionAsync();
+BenchmarkRunner.Run<LeftJoinBenchmarks>();
+
+// var runner = new LeftJoinBenchmarks { OuterCount = 100, InnersPerOuter = 1000 };
+// runner.Setup();
+// runner.LeftJoin();
+// runner.GroupJoin_SelectMany();
+
+/////////////////////////////////////
+
+// BenchmarkRunner.Run<SemiJoinBenchmarks>();
+
+// var runner = new SemiJoinBenchmarks { OuterCount = 100, InnersPerOuter = 100, DataProfile = DataProfile.Random };
+// runner.Setup();
+// runner.Where_Any();
+// runner.SemiJoin();
+
+
 
