@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Threading.Tasks;
-using Dapper;
-using Microsoft.Data.SqlClient;
-using Npgsql;
-using NpgsqlTypes;
+using System.IO;
+using Microsoft.Data.Sqlite;
 
-await using var connection = new SqlConnection("Server=localhost;Database=test;User=SA;Password=Abcd5678;Connect Timeout=60;ConnectRetryCount=0;Encrypt=false");
-await connection.OpenAsync();
+Console.WriteLine(Directory.GetCurrentDirectory());
+await using var connection = new SqliteConnection("Data Source=:memory:");
+connection.Open();
+connection.LoadExtension("vec0");
 
-// var builder = new NpgsqlDataSourceBuilder("Host=localhost;Username=test;Password=test");
-// await using var dataSource = builder.Build();
-// await using var connection = await dataSource.OpenConnectionAsync();
-
+using var command = connection.CreateCommand();
+command.CommandText = "SELECT vec_version()";
+Console.WriteLine($"sqlite_vec version: {command.ExecuteScalar()}");
