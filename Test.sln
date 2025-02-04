@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test.csproj", "{771109D2-AC7E-40C8-8F16-649832A10284}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorData.Abstractions", "..\semantic-kernel\dotnet\src\Connectors\VectorData.Abstractions\VectorData.Abstractions.csproj", "{084B1771-BA91-49DE-8974-02D49453382F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connectors.Memory.Postgres", "..\semantic-kernel\dotnet\src\Connectors\Connectors.Memory.Postgres\Connectors.Memory.Postgres.csproj", "{626572F8-602B-4339-9847-2FA1C7463C4A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,6 +16,14 @@ Global
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771109D2-AC7E-40C8-8F16-649832A10284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084B1771-BA91-49DE-8974-02D49453382F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084B1771-BA91-49DE-8974-02D49453382F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084B1771-BA91-49DE-8974-02D49453382F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084B1771-BA91-49DE-8974-02D49453382F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{626572F8-602B-4339-9847-2FA1C7463C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{626572F8-602B-4339-9847-2FA1C7463C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{626572F8-602B-4339-9847-2FA1C7463C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{626572F8-602B-4339-9847-2FA1C7463C4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
