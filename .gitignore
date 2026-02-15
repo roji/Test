@@ -18,5 +18,6 @@ artifacts/
 # Roslyn cache directories
 *.ide/
 .vs/
+.vscode/
 TestResult.xml
 BenchmarkDotNet.Artifacts/
