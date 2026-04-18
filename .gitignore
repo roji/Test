@@ -21,3 +21,4 @@ artifacts/
 TestResult.xml
 BenchmarkDotNet.Artifacts/
 .vscode/
+*.lscache
